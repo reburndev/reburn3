@@ -17,16 +17,12 @@ jobs:
         run: |
           cmake -E make_directory ${{ runner.workspace }}/build
 
-      #- name: Enable Developer Command Prompt (Windows)
-      #  uses: ilammy/msvc-dev-cmd@v1
-      #  with:
-      #    arch: win32
-
       - name: Configure CMake
         shell: bash
         working-directory: ${{ runner.workspace }}/build
         run: |
-          cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=RelWithDebInfo -G "Visual Studio 15 2017" -T v141_xp
+          cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=RelWithDebInfo -G "Visual Studio 16 2019" -A Win32
+          # cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=RelWithDebInfo -G "Visual Studio 15 2017" -T v141_xp -A Win32
 
       - name: Build
         working-directory: ${{ runner.workspace }}/build
