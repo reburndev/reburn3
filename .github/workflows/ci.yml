@@ -13,6 +13,14 @@ jobs:
         with:
           submodules: 'true'
 
+      - name: Install Visual Studio 2017
+        run: |
+          curl -fLOSs https://aka.ms/vs/15/release/vs_Community.exe
+          #vs_Community.exe --layout .\vs_Community
+          #cd vs_Community
+          #vs_setup.exe --nocache --wait --noUpdateInstaller --noWeb -add Microsoft.VisualStudio.Component.WinXP --quiet --norestart
+          vs_Community.exe -add Microsoft.VisualStudio.Component.WinXP --quiet --norestart
+
       - name: Create Build Folder
         run: |
           cmake -E make_directory ${{ runner.workspace }}/build
@@ -21,8 +29,8 @@ jobs:
         shell: bash
         working-directory: ${{ runner.workspace }}/build
         run: |
-          cmake $GITHUB_WORKSPACE -G "Visual Studio 16 2019" -A Win32
-          # cmake $GITHUB_WORKSPACE -G "Visual Studio 15 2017" -T v141_xp -A Win32
+          # cmake $GITHUB_WORKSPACE -G "Visual Studio 16 2019" -A Win32
+          cmake $GITHUB_WORKSPACE -G "Visual Studio 15 2017" -T v141_xp -A Win32
 
       - name: Build
         working-directory: ${{ runner.workspace }}/build
