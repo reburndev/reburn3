@@ -21,14 +21,14 @@ jobs:
         shell: bash
         working-directory: ${{ runner.workspace }}/build
         run: |
-          cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=Release -G "Visual Studio 16 2019" -A Win32
-          # cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=Release -G "Visual Studio 15 2017" -T v141_xp -A Win32
+          cmake $GITHUB_WORKSPACE -G "Visual Studio 16 2019" -A Win32
+          # cmake $GITHUB_WORKSPACE -G "Visual Studio 15 2017" -T v141_xp -A Win32
 
       - name: Build
         working-directory: ${{ runner.workspace }}/build
         shell: bash
         run: |
-          cmake --build .
+          cmake --build . --config Release
 
       - name: Upload Installer Artifact to GitHub
         uses: actions/upload-artifact@v2
