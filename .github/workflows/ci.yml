@@ -14,6 +14,7 @@ jobs:
           submodules: 'true'
 
       - name: Install Visual Studio 2017
+        shell: cmd
         run: |
           curl -fLOSs https://aka.ms/vs/15/release/vs_Community.exe
           #vs_Community.exe --layout .\vs_Community
