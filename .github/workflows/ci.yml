@@ -5,7 +5,7 @@ on: push
 jobs:
   build:
     #name:
-    runs-on: windows-latest
+    runs-on: windows-2019
 
     steps:
       - name: Checkout Source Code
@@ -17,10 +17,10 @@ jobs:
         run: |
           cmake -E make_directory ${{ runner.workspace }}/build
 
-      - name: Enable Developer Command Prompt (Windows)
-        uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: win32
+      #- name: Enable Developer Command Prompt (Windows)
+      #  uses: ilammy/msvc-dev-cmd@v1
+      #  with:
+      #    arch: win32
 
       - name: Configure CMake
         shell: bash
