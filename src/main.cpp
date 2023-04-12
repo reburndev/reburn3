@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <TCHAR.H>
 #include <Windows.h>
 
 #include "memory.h"
@@ -17,7 +18,7 @@ int WINAPI WinMain(
   WNDCLASS wndclass;
   ZeroMemory(&wndclass, sizeof(WNDCLASS));
   wndclass.hInstance = hInstance;
-  wndclass.hbrBackground = GetStockObject(BLACK_BRUSH);
+  wndclass.hbrBackground = (HBRUSH) GetStockObject(BLACK_BRUSH);
   wndclass.lpszClassName = TEXT("mainWnd");
   RegisterClass(&wndclass);
 

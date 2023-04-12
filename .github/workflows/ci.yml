@@ -3,7 +3,7 @@ name: CI
 on: push
 
 jobs:
-  windows:
+  build:
     #name:
     runs-on: windows-latest
 
