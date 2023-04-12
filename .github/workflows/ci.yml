@@ -1,0 +1,39 @@
+name: CI
+
+on: push
+
+jobs:
+  windows:
+    #name:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v2
+        with:
+          submodules: 'true'
+
+      - name: Create Build Folder
+        run: |
+          cmake -E make_directory ${{ runner.workspace }}/build
+
+      - name: Enable Developer Command Prompt (Windows)
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Configure CMake
+        shell: bash
+        working-directory: ${{ runner.workspace }}/build
+        run: |
+          cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=RelWithDebInfo -G Ninja
+
+      - name: Build
+        working-directory: ${{ runner.workspace }}/build
+        shell: bash
+        run: |
+          cmake --build .
+
+      - name: Upload Installer Artifact to GitHub
+        uses: actions/upload-artifact@v2
+        with:
+          #name: ${{ env.PKGNAME }}-Installer
+          path: ${{ runner.workspace }}/build/reburn3.exe
