@@ -15,18 +15,23 @@ int WINAPI WinMain(
   _stprintf_s(buf, TEXT("Memory buffer located at: %p"), MEMORY_BUFFER);
   MessageBox(0, buf, 0, 0);
 
+  const TCHAR CLASS_NAME = TEXT("mainWnd");
+
   WNDCLASS wndclass;
   ZeroMemory(&wndclass, sizeof(WNDCLASS));
   wndclass.hInstance = hInstance;
   wndclass.hbrBackground = (HBRUSH) GetStockObject(BLACK_BRUSH);
-  wndclass.lpszClassName = TEXT("mainWnd");
+  wndclass.lpszClassName = CLASS_NAME;
+  wndclass.lpfnWndProc = DefWindowProc;
   RegisterClass(&wndclass);
 
-  HWND wnd = CreateWindow(TEXT("mainWnd"), TEXT("Reburn 3: Takedown"), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 640, 480, NULL, NULL, hInstance, NULL);
+  HWND wnd = CreateWindow(CLASS_NAME, TEXT("Reburn 3: Takedown"), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 640, 480, NULL, NULL, hInstance, NULL);
   if (wnd == NULL) {
     MessageBox(0, TEXT("Failed to create window"), 0, 0);
     return 1;
   }
+
+  ShowWindow(wnd, nShowCmd);
 
   MSG msg;
   bool quit = false;
