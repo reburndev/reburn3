@@ -19,12 +19,14 @@ jobs:
 
       - name: Enable Developer Command Prompt (Windows)
         uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: win32
 
       - name: Configure CMake
         shell: bash
         working-directory: ${{ runner.workspace }}/build
         run: |
-          cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=RelWithDebInfo -G Ninja
+          cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=RelWithDebInfo -G "Visual Studio 15 2017" -T v141_xp
 
       - name: Build
         working-directory: ${{ runner.workspace }}/build
