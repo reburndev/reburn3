@@ -15,7 +15,7 @@ int WINAPI WinMain(
   _stprintf_s(buf, TEXT("Memory buffer located at: %p"), MEMORY_BUFFER);
   MessageBox(0, buf, 0, 0);
 
-  const TCHAR CLASS_NAME = TEXT("mainWnd");
+  const TCHAR *CLASS_NAME = TEXT("mainWnd");
 
   WNDCLASS wndclass;
   ZeroMemory(&wndclass, sizeof(WNDCLASS));
