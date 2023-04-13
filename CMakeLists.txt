@@ -16,6 +16,7 @@ target_link_options(reburn3 PRIVATE
   /FIXED
   /DYNAMICBASE:NO
   /SAFESEH:NO
+  /NODEFAULTLIB
 )
 
 target_link_libraries(reburn3 PRIVATE
