@@ -16,7 +16,7 @@ jobs:
       - name: Install vc141_xp
         shell: cmd
         run: |
-          "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installer.exe" modify --installPath "C:\Program Files\Microsoft Visual Studio\2022\Enterprise" --add Microsoft.VisualStudio.Component.WinXP --quiet --norestart
+          "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installer.exe" modify --installPath "C:\Program Files\Microsoft Visual Studio\2019\Enterprise" --add Microsoft.VisualStudio.Component.WinXP --quiet --norestart
 
       - name: Create Build Folder
         run: |
