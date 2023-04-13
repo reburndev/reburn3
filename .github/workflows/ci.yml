@@ -14,9 +14,8 @@ jobs:
           submodules: 'true'
 
       - name: Install vc141_xp
-        shell: cmd
         run: |
-          "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installer.exe" modify --installPath "C:\Program Files\Microsoft Visual Studio\2019\Enterprise" --add Microsoft.VisualStudio.Component.WinXP --quiet --norestart
+          Start-Process "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installer.exe" -ArgumentList 'modify --installPath "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise" --quiet --add Microsoft.VisualStudio.Component.WinXP' -Wait -PassThru
 
       - name: Create Build Folder
         run: |
