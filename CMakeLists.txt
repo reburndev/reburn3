@@ -13,6 +13,7 @@ add_executable(reburn3 WIN32
   src/inject.h
   src/main.cpp
   src/memory.h
+  src/res/res.rc
   src/wndproc.cpp
   src/wndproc.h
 
@@ -26,6 +27,10 @@ target_link_options(reburn3 PRIVATE
   /FIXED
   /DYNAMICBASE:NO
   /SAFESEH:NO
+)
+
+target_include_directories(reburn3 PRIVATE
+  ${CMAKE_SOURCE_DIR}/ext/Cxbx-Reloaded/src
 )
 
 target_link_libraries(reburn3 PRIVATE

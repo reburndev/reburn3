@@ -4,8 +4,8 @@
 
 void WriteMemory(size_t offset, void *data, size_t size)
 {
-  WriteProcessMemory(g_cxbxHandle, (LPVOID) offset, data, size, NULL);
   //memcpy((void *) offset, data, size);
+  WriteProcessMemory(g_cxbxHandle, (LPVOID) offset, data, size, NULL);
 }
 
 void WriteByte(size_t offset, unsigned char byte)
@@ -22,6 +22,10 @@ void WriteBytes(size_t offset, unsigned char byte, size_t count)
 
 void Inject()
 {
+  const wchar_t *msg = L"Welcome to Reburn";
+  WriteMemory(0x2f845, &msg, sizeof(const wchar_t *));
+  WriteMemory(0x2f87A, &msg, sizeof(const wchar_t *));
+
   WriteByte(0x3366D, 0x90);
   WriteBytes(0x33675, 0x90, 5);
   WriteBytes(0x44A0F, 0x90, 5);

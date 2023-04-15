@@ -27,7 +27,6 @@ bool CxbxrExec(HWND hwnd, const TCHAR *path)
   }
 
   CloseHandle(processInfo.hThread);
-  //CloseHandle(processInfo.hProcess);
 
   g_cxbxHandle = processInfo.hProcess;
 

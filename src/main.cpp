@@ -4,6 +4,7 @@
 
 #include "cxbx/cxbxbinding.h"
 #include "memory.h"
+#include "res/resource.h"
 #include "wndproc.h"
 
 int WINAPI WinMain(
@@ -26,6 +27,7 @@ int WINAPI WinMain(
   wndclass.hbrBackground = (HBRUSH) GetStockObject(BLACK_BRUSH);
   wndclass.lpszClassName = CLASS_NAME;
   wndclass.lpfnWndProc = MainWndProc;
+  wndclass.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
   RegisterClass(&wndclass);
 
   DWORD dwStyle = WS_OVERLAPPEDWINDOW;
