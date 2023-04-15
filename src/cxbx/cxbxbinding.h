@@ -3,4 +3,4 @@
 
 extern HANDLE g_cxbxHandle;
 
-bool CxbxrExec(HWND hwnd, const TCHAR *path);
+bool CxbxrExec(HWND hwnd, const TCHAR *path, const TCHAR *xbe);

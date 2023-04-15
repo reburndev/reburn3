@@ -4,18 +4,14 @@
 
 HANDLE g_cxbxHandle = NULL;
 
-bool CxbxrExec(HWND hwnd, const TCHAR *path)
+bool CxbxrExec(HWND hwnd, const TCHAR *cxbx, const TCHAR *xbe)
 {
   STARTUPINFO startupInfo = { 0 };
   PROCESS_INFORMATION processInfo = { 0 };
 
   TCHAR buf[MAX_PATH];
 
-  const TCHAR *cxbx_path = TEXT("C:\\Users\\matt\\src\\Cxbx-Reloaded\\bulid\\bin\\Release\\cxbxr-ldr.exe");
-  // const TCHAR *cxbx_path = TEXT("C:\\Users\\matt\\Downloads\\CxbxReloaded-Release-VS2022\\cxbxr-ldr.exe");
-
-  // if (_sntprintf_s(buf, MAX_PATH, TEXT("%s /load %s"), cxbx_path, path) >= MAX_PATH) {
-  if (_sntprintf_s(buf, MAX_PATH, TEXT("%s /load %s /hwnd %zu"), cxbx_path, path, (size_t) hwnd) >= MAX_PATH) {
+  if (_sntprintf_s(buf, MAX_PATH, TEXT("%s /load %s /hwnd %zu"), cxbx, xbe, (size_t) hwnd) >= MAX_PATH) {
     return false;
   }
 

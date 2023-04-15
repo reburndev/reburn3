@@ -1,12 +1,13 @@
 #include "wndproc.h"
 
-#include <gui/resource/ResCxbx.h>
 #include <stdio.h>
 
 #include "cxbx/cxbxbinding.h"
 #include "inject.h"
 
 HWND childHwnd = NULL;
+
+#define CXBX_ID_GUI_STATUS_LLE_FLAGS         1097
 
 LRESULT WINAPI MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -24,16 +25,20 @@ LRESULT WINAPI MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
       return 0;
     case WM_COMMAND:
       switch (HIWORD(wParam)) {
-      case ID_GUI_STATUS_KRNL_IS_READY:
-        MessageBoxA(0, "Set GUI is ready...", 0, 0);
-        //g_EmuShared->SetIsReady(true);
-        return 0;
-      case ID_GUI_STATUS_LLE_FLAGS:
+      case CXBX_ID_GUI_STATUS_LLE_FLAGS:
         // We don't actually handle this message, but once we get it, we know
         // the XBE has been mapped into memory, so we take the opportunity to
         // inject our own code.
-        MessageBoxA(0, "inject again", 0, 0);
         //Inject();
+
+        LPCWSTR dllName = L"reburn3inject.dll";
+        size_t dllNameSz = (wcslen(dllName) + 1) * sizeof(wchar_t);
+        LPVOID loadLibraryFunc = (LPVOID) GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "LoadLibraryW");
+        LPVOID remoteMem = VirtualAllocEx(g_cxbxHandle, NULL, dllNameSz, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
+        WriteProcessMemory(g_cxbxHandle, remoteMem, dllName, dllNameSz, NULL);
+
+        HANDLE remoteThread = CreateRemoteThread(g_cxbxHandle, NULL, 0, (LPTHREAD_START_ROUTINE) loadLibraryFunc, remoteMem, NULL, NULL);
+        CloseHandle(remoteThread);
         return 0;
       }
       break;
@@ -54,12 +59,12 @@ LRESULT WINAPI MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
       float our_ar = float(w) / float(h);
       if (our_ar > target_ar) {
         // Window is wider, scale by height
-        int tw = h * target_ar;
+        int tw = int(h * target_ar);
         x = w / 2 - tw / 2;
         w = tw;
       } else {
         // Window is taller, scale by width
-        int th = w / target_ar;
+        int th = int(w / target_ar);
         y = h / 2 - th / 2;
         h = th;
       }

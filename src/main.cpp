@@ -14,10 +14,10 @@ int WINAPI WinMain(
   int       nShowCmd
 )
 {
-  if (MEMORY_BUFFER != (LPVOID) 0x11000) {
+  /*if (MEMORY_BUFFER != (LPVOID) 0x11000) {
     MessageBox(0, TEXT("Memory buffer has been compiled to the wrong offset."), 0, 0);
     return 0;
-  }
+  }*/
 
   const TCHAR *CLASS_NAME = TEXT("mainWnd");
 
@@ -46,7 +46,33 @@ int WINAPI WinMain(
 
   ShowWindow(wnd, nShowCmd);
 
-  CxbxrExec(wnd, TEXT("C:\\Users\\matt\\b3\\default.xbe"));
+  TCHAR xbePath[MAX_PATH];
+  TCHAR cxbxPath[MAX_PATH];
+
+  OPENFILENAME ofn;
+  ZeroMemory(&ofn, sizeof(ofn));
+  ofn.lStructSize = sizeof(ofn);
+  ofn.hwndOwner = wnd;
+  ofn.lpstrFilter = TEXT("default.xbe\0default.xbe\0");
+  ofn.lpstrFile = xbePath;
+  ofn.nMaxFile = MAX_PATH;
+  ofn.lpstrTitle = TEXT("Where is Burnout 3 located?");
+
+  if (!GetOpenFileName(&ofn)) {
+    return 0;
+  }
+
+  ofn.lpstrFilter = TEXT("cxbxr-ldr.exe\0cxbxr-ldr.exe\0");
+  ofn.lpstrFile = cxbxPath;
+  ofn.lpstrTitle = TEXT("Where is Cxbx located?");
+
+  if (!GetOpenFileName(&ofn)) {
+    return 0;
+  }
+
+  if (!CxbxrExec(wnd, cxbxPath, xbePath)) {
+    return 0;
+  }
 
   MSG msg;
   bool quit = false;
@@ -66,5 +92,5 @@ int WINAPI WinMain(
 
   DestroyWindow(wnd);
 
-  return 0;
+  return msg.wParam;
 }
