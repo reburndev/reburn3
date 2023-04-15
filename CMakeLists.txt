@@ -9,8 +9,15 @@ add_executable(reburn3 WIN32
   # Must be kept at the top to ensure correct memory mapping
   src/memory.cpp
 
+  src/inject.cpp
+  src/inject.h
   src/main.cpp
   src/memory.h
+  src/wndproc.cpp
+  src/wndproc.h
+
+  src/cxbx/cxbxbinding.cpp
+  src/cxbx/cxbxbinding.h
 )
 
 target_link_options(reburn3 PRIVATE
