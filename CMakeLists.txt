@@ -5,8 +5,8 @@ project(reburn LANGUAGES CXX)
 option(REBURN_UNICODE "Enable Unicode on Windows" ON)
 
 # Statically link UCRT, improves ability to run on XP when compiled with v141_xp
-set(CMAKE_CXX_FLAGS_RELEASE "/MT")
-set(CMAKE_CXX_FLAGS_DEBUG "/MTd")
+#set(CMAKE_CXX_FLAGS_RELEASE "/MT")
+#set(CMAKE_CXX_FLAGS_DEBUG "/MTd")
 
 add_executable(reburn3 WIN32
   # Must be kept at the top to ensure correct memory mapping
@@ -20,6 +20,10 @@ add_executable(reburn3 WIN32
 
   src/cxbx/cxbxbinding.cpp
   src/cxbx/cxbxbinding.h
+)
+
+target_link_libraries(reburn3 PRIVATE
+  shlwapi
 )
 
 # We aren't currently loading the XBE on our end, so this is unnecessary
