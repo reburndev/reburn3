@@ -25,24 +25,60 @@ int WINAPI WinMain(
   xbePath[0] = 0;
   cxbxPath[0] = 0;
 
+  const HKEY rootKey = HKEY_CURRENT_USER;
+  const TCHAR *regKey = TEXT("Software\\Reburn\\Reburn 3");
+  const TCHAR *xbeKey = TEXT("xbepath");
+  const TCHAR *cxbxKey = TEXT("cxbxpath");
+
+  HKEY hKey;
+  LSTATUS result = RegOpenKey(rootKey, regKey, &hKey);
+  if (result == ERROR_SUCCESS) {
+    DWORD sz;
+    sz = MAX_PATH;
+    RegQueryValueEx(hKey, xbeKey, NULL, NULL, (BYTE *) xbePath, &sz);
+    sz = MAX_PATH;
+    RegQueryValueEx(hKey, cxbxKey, NULL, NULL, (BYTE *) cxbxPath, &sz);
+  } else {
+    if (result == ERROR_FILE_NOT_FOUND) {
+      result = RegCreateKey(rootKey, regKey, &hKey);
+    }
+  }
+
   OPENFILENAME ofn;
   ZeroMemory(&ofn, sizeof(ofn));
   ofn.lStructSize = sizeof(ofn);
-  ofn.lpstrFilter = TEXT("default.xbe\0default.xbe\0");
-  ofn.lpstrFile = xbePath;
   ofn.nMaxFile = MAX_PATH;
-  ofn.lpstrTitle = TEXT("Where is Burnout 3 located?");
 
-  if (!GetOpenFileName(&ofn)) {
-    return 0;
+  if (xbePath[0] == 0 || GetFileAttributes(xbePath) == INVALID_FILE_ATTRIBUTES) {
+    ofn.lpstrFilter = TEXT("default.xbe\0default.xbe\0");
+    ofn.lpstrFile = xbePath;
+    ofn.lpstrTitle = TEXT("Where is Burnout 3 located?");
+
+    if (!GetOpenFileName(&ofn)) {
+      return 0;
+    }
+
+    if (result == ERROR_SUCCESS) {
+      RegSetValueEx(hKey, xbeKey, NULL, REG_SZ, (const BYTE *) xbePath, (_tcslen(xbePath) + 1) * sizeof(TCHAR));
+    }
   }
 
-  ofn.lpstrFilter = TEXT("cxbxr-ldr.exe\0cxbxr-ldr.exe\0");
-  ofn.lpstrFile = cxbxPath;
-  ofn.lpstrTitle = TEXT("Where is Cxbx located?");
+  if (cxbxPath[0] == 0 || GetFileAttributes(cxbxPath) == INVALID_FILE_ATTRIBUTES) {
+    ofn.lpstrFilter = TEXT("cxbxr-ldr.exe\0cxbxr-ldr.exe\0");
+    ofn.lpstrFile = cxbxPath;
+    ofn.lpstrTitle = TEXT("Where is Cxbx located?");
 
-  if (!GetOpenFileName(&ofn)) {
-    return 0;
+    if (!GetOpenFileName(&ofn)) {
+      return 0;
+    }
+
+    if (result == ERROR_SUCCESS) {
+      RegSetValueEx(hKey, cxbxKey, NULL, REG_SZ, (const BYTE *) cxbxPath, (_tcslen(cxbxPath) + 1) * sizeof(TCHAR));
+    }
+  }
+
+  if (result == ERROR_SUCCESS) {
+    RegCloseKey(hKey);
   }
 
   const TCHAR *CLASS_NAME = TEXT("mainWnd");
