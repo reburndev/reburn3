@@ -38,4 +38,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           #name: ${{ env.PKGNAME }}-Installer
-          path: ${{ runner.workspace }}/build/Release/reburn3.exe
+          path: ${{ runner.workspace }}/build/Release
