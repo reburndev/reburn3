@@ -15,7 +15,7 @@ bool CxbxrExec(HWND hwnd, const TCHAR *cxbx, const TCHAR *xbe)
 
   g_cxbxSessionID = std::chrono::steady_clock::now().time_since_epoch().count();
 
-  if (_sntprintf_s(buf, MAX_PATH, TEXT("%s /load %s /hwnd %zu /sid %lld"), cxbx, xbe, (size_t) hwnd, g_cxbxSessionID) >= MAX_PATH) {
+  if (_sntprintf_s(buf, MAX_PATH, TEXT("\"%s\" /load \"%s\" /hwnd %zu /sid %lld"), cxbx, xbe, (size_t) hwnd, g_cxbxSessionID) >= MAX_PATH) {
     return false;
   }
 
