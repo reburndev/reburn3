@@ -13,9 +13,9 @@ jobs:
         with:
           submodules: 'true'
 
-      - name: Install vc141_xp
-        run: |
-          Start-Process "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installer.exe" -ArgumentList 'modify --installPath "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise" --quiet --add Microsoft.VisualStudio.Component.WinXP' -Wait -PassThru
+      #- name: Install vc141_xp
+      #  run: |
+      #    Start-Process "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installer.exe" -ArgumentList 'modify --installPath "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise" --quiet --add Microsoft.VisualStudio.Component.WinXP' -Wait -PassThru
 
       - name: Create Build Folder
         run: |
@@ -25,8 +25,8 @@ jobs:
         shell: bash
         working-directory: ${{ runner.workspace }}/build
         run: |
-          # cmake $GITHUB_WORKSPACE -G "Visual Studio 16 2019" -A Win32
-          cmake $GITHUB_WORKSPACE -G "Visual Studio 16 2019" -T v141_xp -A Win32
+          cmake $GITHUB_WORKSPACE -G "Visual Studio 16 2019" -A Win32
+          # cmake $GITHUB_WORKSPACE -G "Visual Studio 16 2019" -T v141_xp -A Win32
 
       - name: Build
         working-directory: ${{ runner.workspace }}/build
