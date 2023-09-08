@@ -2,6 +2,12 @@ cmake_minimum_required(VERSION 3.5)
 
 project(reburn LANGUAGES CXX)
 
+# On MinGW, "lib" will get prepended to libraries which will break out ability
+# to inject our DLL.
+set(CMAKE_SHARED_LIBRARY_PREFIX "")
+set(CMAKE_STATIC_LIBRARY_PREFIX "")
+set(CMAKE_IMPORT_LIBRARY_PREFIX "")
+
 option(REBURN_UNICODE "Enable Unicode on Windows" ON)
 
 # Statically link UCRT, improves ability to run on XP when compiled with v141_xp

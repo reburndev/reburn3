@@ -1,11 +1,15 @@
 #include <stdio.h>
-#include <TCHAR.H>
-#include <Windows.h>
+#include <tchar.h>
+#include <windows.h>
 
 #include "cxbx/cxbxbinding.h"
 #include "memory.h"
 #include "res/resource.h"
 #include "wndproc.h"
+
+#if defined(_WIN64)
+#error Reburn 3 must be compiled in 32-bit mode
+#endif
 
 int WINAPI WinMain(
   HINSTANCE hInstance,
