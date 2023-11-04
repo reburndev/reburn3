@@ -96,11 +96,11 @@ int WINAPI WinMain(
   wndclass.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
   RegisterClass(&wndclass);
 
-  DWORD dwStyle = WS_OVERLAPPEDWINDOW;
+  DWORD dwStyle = DWSTYLE_WINDOWED;
 
   const bool isWindowed = true;
   if (!isWindowed) {
-    dwStyle = WS_POPUP;
+    dwStyle = DWSTYLE_FULLSCREEN;
     nShowCmd = SW_SHOWMAXIMIZED;
   }
 

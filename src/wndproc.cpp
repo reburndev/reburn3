@@ -8,6 +8,22 @@
 
 HWND childHwnd = NULL;
 
+void toggleFullScreen(HWND hWnd)
+{
+  static RECT storedRect;
+  if (GetWindowLong(hWnd, GWL_STYLE) & DWSTYLE_FULLSCREEN) {
+    // Reject modernity, return to windowe
+    SetWindowLong(hWnd, GWL_STYLE, DWSTYLE_WINDOWED);
+    SetWindowPos(hWnd, NULL, storedRect.left, storedRect.top, storedRect.right - storedRect.left, storedRect.bottom - storedRect.top, 0);
+    ShowWindow(hWnd, SW_RESTORE);
+  } else {
+    // Full screen
+    GetWindowRect(hWnd, &storedRect);
+    SetWindowLong(hWnd, GWL_STYLE, DWSTYLE_FULLSCREEN);
+    ShowWindow(hWnd, SW_MAXIMIZE);
+  }
+}
+
 LRESULT WINAPI MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
   switch (uMsg) {
@@ -78,6 +94,16 @@ LRESULT WINAPI MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     }
     break;
   }
+  case WM_KEYDOWN:
+    if (wParam == VK_F11) {
+      toggleFullScreen(hWnd);
+    }
+    break;
+  case WM_SYSKEYDOWN:
+    if ((HIWORD(lParam) & KF_ALTDOWN) && wParam == VK_RETURN) {
+      toggleFullScreen(hWnd);
+    }
+    break;
   }
 
   return DefWindowProc(hWnd, uMsg, wParam, lParam);
