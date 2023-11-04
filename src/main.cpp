@@ -117,6 +117,7 @@ int WINAPI WinMain(
   }
 
   ShowWindow(wnd, nShowCmd);
+  SetCursor(NULL);
 
   if (!CxbxrExec(wnd, cxbxPath, xbePath)) {
     return 0;

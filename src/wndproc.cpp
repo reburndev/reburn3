@@ -60,6 +60,11 @@ LRESULT WINAPI MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
         HANDLE remoteThread = CreateRemoteThread(g_cxbxHandle, NULL, 0, (LPTHREAD_START_ROUTINE) loadLibraryFunc, remoteMem, NULL, NULL);
         CloseHandle(remoteThread);
+
+        LPVOID setCursorFunc = (LPVOID) GetProcAddress(GetModuleHandle(TEXT("user32.dll")), "SetCursor");
+        DWORD nullCursor = 0;
+        HANDLE cursorThread = CreateRemoteThread(g_cxbxHandle, NULL, 0, (LPTHREAD_START_ROUTINE) setCursorFunc, &nullCursor, NULL, NULL);
+        CloseHandle(cursorThread);
         return 0;
       }
       break;
