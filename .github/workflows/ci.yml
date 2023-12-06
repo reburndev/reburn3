@@ -34,8 +34,19 @@ jobs:
         run: |
           cmake --build . --config Release
 
-      - name: Upload Installer Artifact to GitHub
+      - name: Upload Artifact to Actions
         uses: actions/upload-artifact@v2
         with:
           #name: ${{ env.PKGNAME }}-Installer
           path: ${{ runner.workspace }}/build/Release
+
+      - name: Upload Artifact to Releases
+        if: ${{ github.ref == 'refs/heads/master' }}
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: ${{ runner.workspace }}/build/Release
+          allowUpdates: true
+          name: "Continuous Release"
+          removeArtifacts: true
+          commit: "master"
+          tag: "continuous"
