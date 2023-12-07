@@ -18,6 +18,7 @@ add_executable(reburn3 WIN32
   # Must be kept at the top to ensure correct memory mapping
   #src/memory.cpp
 
+  src/define.cpp
   src/main.cpp
   #src/memory.h
   src/res/res.rc
@@ -42,9 +43,36 @@ target_link_libraries(reburn3 PRIVATE
 #)
 
 add_library(reburn3inject SHARED
+  src/define.cpp
   src/dllmain.cpp
   src/inject.cpp
-  src/inject.h
+  src/game/cb3graphicsmanager.cpp
+)
+
+include_directories(
+  /home/matt/src/msvc/vc/tools/msvc/14.38.33130/include
+  /home/matt/src/msvc/kits/10/include/10.0.22621.0/shared
+  /home/matt/src/msvc/kits/10/include/10.0.22621.0/ucrt
+  /home/matt/src/msvc/kits/10/include/10.0.22621.0/um
+  /home/matt/src/msvc/kits/10/include/10.0.22621.0/winrt
+
+  ${CMAKE_SOURCE_DIR}/thirdparty/d3d8/include
+  ${CMAKE_SOURCE_DIR}/thirdparty/rw/include/d3d8/
+)
+
+target_link_directories(reburn3inject PRIVATE
+  ${CMAKE_SOURCE_DIR}/thirdparty/d3d8/lib
+  ${CMAKE_SOURCE_DIR}/thirdparty/d3d8/lib
+  $<$<CONFIG:Debug>:${CMAKE_SOURCE_DIR}/thirdparty/rw/lib/d3d8/debug>
+  $<$<CONFIG:Release>:${CMAKE_SOURCE_DIR}/thirdparty/rw/lib/d3d8/release>
+  $<$<CONFIG:RelWithDebInfo>:${CMAKE_SOURCE_DIR}/thirdparty/rw/lib/d3d8/release>
+)
+
+target_link_libraries(reburn3inject PRIVATE
+  d3d8
+  rwcore
+  rtfsyst
+  legacy_stdio_definitions
 )
 
 if (REBURN_UNICODE)

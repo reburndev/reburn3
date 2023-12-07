@@ -1,6 +1,9 @@
 #include "inject.h"
 
+#include <stdio.h>
+
 #include "cxbx/cxbxbinding.h"
+#include "game/cb3graphicsmanager.h"
 
 void WriteMemory(size_t offset, void *data, size_t size)
 {
@@ -17,6 +20,14 @@ void WriteBytes(size_t offset, unsigned char byte, size_t count)
   for (size_t i = 0; i < count; i++) {
   	WriteByte(offset + i, byte);
   }
+}
+
+void WriteJmpRet(size_t from, size_t to)
+{
+  size_t relative = to - (from + 5);
+
+  WriteByte(from, 0xE9);
+  WriteMemory(from + 1, &relative, sizeof(relative));
 }
 
 void Inject()
@@ -39,4 +50,12 @@ void Inject()
 
   // Inject 1080 display height
   //WriteMemory(0x1dd6b8, "\xba\x38\x04\x00\x00\x90", 6);
+
+  void (CB3GraphicsManager::* pFunc)() = &CB3GraphicsManager::ConstructLTCG;
+  WriteJmpRet(0x0003c8a0, (size_t) (void*&) pFunc);
+
+  //void (CB3GraphicsManager::* pFunc)() = &CB3GraphicsManager::OpenRenderWare;
+  //WriteJmpRet(0x0003d690, (size_t) (void*&) pFunc);
+
+  MessageBoxA(0, "Attach now", 0, 0);
 }

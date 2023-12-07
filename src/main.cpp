@@ -3,6 +3,7 @@
 #include <windows.h>
 
 #include "cxbx/cxbxbinding.h"
+#include "define.h"
 #include "memory.h"
 #include "res/resource.h"
 #include "wndproc.h"
@@ -107,18 +108,18 @@ int WINAPI WinMain(
   RECT wndrect = {0, 0, 640, 480};
   AdjustWindowRect(&wndrect, dwStyle, false);
 
-  HWND wnd = CreateWindow(CLASS_NAME, TEXT("Reburn 3: Takedown"), dwStyle,
+  g_windowHandle = CreateWindow(CLASS_NAME, TEXT("Reburn 3: Takedown"), dwStyle,
                           CW_USEDEFAULT, CW_USEDEFAULT,
                           wndrect.right - wndrect.left, wndrect.bottom - wndrect.top,
                           NULL, NULL, hInstance, NULL);
-  if (wnd == NULL) {
+  if (g_windowHandle == NULL) {
     MessageBox(0, TEXT("Failed to create window"), 0, 0);
     return 0;
   }
 
-  ShowWindow(wnd, nShowCmd);
+  ShowWindow(g_windowHandle, nShowCmd);
 
-  if (!CxbxrExec(wnd, cxbxPath, xbePath)) {
+  if (!CxbxrExec(g_windowHandle, cxbxPath, xbePath)) {
     return 0;
   }
 
@@ -138,7 +139,7 @@ int WINAPI WinMain(
     WaitMessage();
   }
 
-  DestroyWindow(wnd);
+  DestroyWindow(g_windowHandle);
 
   return msg.wParam;
 }

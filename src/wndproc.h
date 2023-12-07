@@ -1,4 +1,4 @@
-#include <windows.h>
+#include <Windows.h>
 
 #define DWSTYLE_WINDOWED WS_OVERLAPPEDWINDOW
 #define DWSTYLE_FULLSCREEN WS_POPUP

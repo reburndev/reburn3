@@ -4,7 +4,15 @@
 #include <stdio.h>
 
 HANDLE g_cxbxHandle = NULL;
+HWND g_parentWnd = NULL;
 long long g_cxbxSessionID = 0;
+
+DWORD WINAPI WaitForClose(HANDLE hProcess)
+{
+  WaitForSingleObject(hProcess, INFINITE);
+  PostMessage(g_parentWnd, WM_QUIT, 0, 0);
+  return 0;
+}
 
 bool CxbxrExec(HWND hwnd, const TCHAR *cxbx, const TCHAR *xbe)
 {
@@ -29,6 +37,9 @@ bool CxbxrExec(HWND hwnd, const TCHAR *cxbx, const TCHAR *xbe)
   CloseHandle(processInfo.hThread);
 
   g_cxbxHandle = processInfo.hProcess;
+  g_parentWnd = hwnd;
+
+  CloseHandle(CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE) WaitForClose, g_cxbxHandle, 0, NULL));
 
   return true;
 }
