@@ -2,6 +2,10 @@
 
 A work-in-progress open source reimplementation of *Burnout 3: Takedown*.
 
+<p align="center">
+  <img src="https://github.com/reburndev/reburn3/blob/master/img/ss1.png?raw=true">
+</p>
+
 ## Goals
 
 **Reburn 3** is a faithful recreation of *Burnout 3: Takedown* via reverse engineering the original game. It is not intended to be a byte-accurate decompilation, it is more akin to a rewrite (hence "open source reimplementation"). The code will be ported to use platform-independent libraries, and support high resolutions and frame rates.
