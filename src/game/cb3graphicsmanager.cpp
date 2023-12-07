@@ -39,6 +39,8 @@ void CB3GraphicsManager::OpenRenderWare()
                         d3dDevice->Swap(0);
                         d3dDevice->Clear(0, NULL, D3DCLEAR_TARGET, 0 , 0.0, 0);
                         d3dDevice->Swap(0);*/
+
+                        // Throw RenderWare memory functions into the static location the Xbox game expects
                         RwMemoryFunctions *xboxMemFuncs = (RwMemoryFunctions *) 0x007593d4;
                         *xboxMemFuncs = RWSRCGLOBAL(memoryFuncs);
                     } else {
